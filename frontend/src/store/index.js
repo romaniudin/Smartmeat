@@ -1,11 +1,12 @@
 import logger from 'redux-logger'
 import axios from 'axios'
 import { createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
 
-import { startSignup, finishSignup, validateError, userExists } from './actions'
+import { startSignup, finishSignup, validateEmailError, validateNamesError, validatePasswordError, userExists } from './actions'
 import { startLogin, finishLogin, startCheckForUser, checkForUser, validateLogin } from './actions/login'
 import { startCalculate, finishCalculate } from './actions/calculator'
-import { startReport, finishReport, startAlterReport,  finishAlterReport } from './actions/saveReport'
+import { startReport, finishReport, startAlterReport,  finishAlterReport, startDeleteReport, finishDeleteReport } from './actions/saveReport'
 import { getAllReports, finishGettingReports } from './actions/globalReport'
 import { allReducers } from './reducers'
 import setAuthToken from '../setAuthToken'
@@ -19,7 +20,7 @@ export const logUserIn = (e, email, password) => {
   .then((res)=>{
     if(res.data.message){
       store.dispatch(validateLogin())
-      console.log(res.data.message)
+
     }else{
     const {token, user} = res.data
     setAuthToken(token)
@@ -31,17 +32,27 @@ export const logUserIn = (e, email, password) => {
   .catch(error => console.log("error:", error))
 }
 
-export const signUserUp = (e, email, password) => {
+export const signUserUp = (e, email, password, firstName, lastName) => {
   e.preventDefault()
   store.dispatch(startSignup())
-  axios.post('http://localhost:3030/user/', {email, password})
+  axios.post('http://localhost:3030/user/', {email, password, firstName, lastName})
   .then((res)=>{
+    
     if(res.data.error) {
       store.dispatch(userExists())
-    }else if (res.data.emailError) {
-      store.dispatch(validateError())
+    }else if (res.data.emailError || res.data.passwordError || res.data.namesError) {
+      console.log(res.data)
+      if (res.data.emailError) {
+        store.dispatch(validateEmailError())
+      }
+      if (res.data.passwordError) {
+        store.dispatch(validatePasswordError())
+      }
+      if (res.data.namesError) {
+        store.dispatch(validateNamesError())
+      }
     }else {
-    console.log("user signed up!")
+
     store.dispatch(finishSignup())
   }
   })
@@ -52,7 +63,6 @@ export const searchForUser = (token) => {
   setAuthToken(token)
   axios.get('http://localhost:3030/user/')
   .then((res)=>{
-    console.log(res.data)
     if(res.data.error) {
 
       localStorage.removeItem('token')
@@ -72,13 +82,12 @@ export const getCalculation = (e, order, quantity, frequency) => {
   store.dispatch(finishCalculate(Number(result), carbonCost, order, Number(quantity), Number(frequency)))
 }
 
-
 export const saveReport = (report, email) => {
   store.dispatch(startReport())
   if (report === "") {
-    console.log("Not Logged In")
+
   }else {
-    axios.put('http://localhost:3030/user/report', {report, email})
+    axios.put('http://localhost:3030/report/report', {report, email})
     .then((res)=>{
       store.dispatch(finishReport(res.data))
     })
@@ -87,30 +96,36 @@ export const saveReport = (report, email) => {
 
 export const grabAllReports = () => {
   store.dispatch(getAllReports())
-  axios.get('http://localhost:3030/user/allReports')
+  axios.get('http://localhost:3030/report/allReports')
   .then((res)=>store.dispatch(finishGettingReports(res.data)))
 }
 
 export const alterReport = (oldReport, newReport, alteredReports, email) => {
     store.dispatch(startAlterReport())
-    newReport.email = email
-    newReport.id = oldReport.id
-    let newAlteredReports = alteredReports.concat(newReport)
+    let newAlteredReports = func.alterReport(oldReport, newReport, alteredReports, email)
     
-    axios.put('http://localhost:3030/user/alterReport', {email, oldReport, newAlteredReports})
+    axios.put('http://localhost:3030/report/alterReport', {email, oldReport, newAlteredReports})
     .then((res)=> {
       store.dispatch(finishAlterReport(res.data))
     })
     .then(  
-      axios.get('http://localhost:3030/user/allReports')
+      axios.get('http://localhost:3030/report/allReports')
       .then((res)=>store.dispatch(finishGettingReports(res.data))
     ))
-    
+}
+
+export const deleteReport = (user, id) => {
+ store.dispatch(startDeleteReport())
+ let alteredUser = func.deleteReport(user, id)
+ let email = user.email
+ console.log(alteredUser)
+    axios.put('http://localhost:3030/report/deleteReport', {email, alteredUser})
+  .then((res)=> store.dispatch(finishDeleteReport(res.data)))
 }
 
 const store = createStore(
   allReducers,
-  applyMiddleware(logger)
+  applyMiddleware(logger, thunk)
 )
 
 export default store

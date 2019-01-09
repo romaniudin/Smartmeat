@@ -6,18 +6,18 @@ import { Link } from 'react-router-dom'
 const Nav = ( {logout, loggedIn} ) => {
   
   let loginButton = loggedIn ? (
-    <button type="button" className="btn btn-dark my-2 my-sm-0 primary" 
+    <button type="button" className="btn" 
     onClick={()=>logout()}
     >Logout </button>
-  ): <Link to="/login"><button type="button" className="btn btn-dark my-2 my-sm-0 primary" >
+  ): <Link to="/login"><button type="button" className="btn" >
       Login 
     </button></Link>
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-white fixed-top">
         <span className="navbar-brand">
           <Link to="/">
-            <img src={logo} alt="logo" width="20"/>
-            Smart<span className='primary'>Meat</span>
+            <img src={logo} alt="logo" width="15px" className="img-fluid"/>
+            <span className="secondary ml-2">Smart</span><span className="primary">Meat</span>
             {/* SmartMeat */}
           </Link>
         </span>
@@ -28,17 +28,17 @@ const Nav = ( {logout, loggedIn} ) => {
         <div className="collapse navbar-collapse" id="navbarCollapse">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item active">
-              <Link to="/ourTool">
+              <Link to="/ourTool#">
                 <span className="nav-link">Our Tool</span>
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/community">
+              <Link to="/community#">
                 <span className="nav-link">Community</span>
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/profile">
+              <Link to="/profile#">
                 <span className="nav-link">Profile</span>
               </Link>
             </li>

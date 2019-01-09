@@ -1,15 +1,20 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins')
-$primaryColor: rgb(171, 208, 56)
+@import url('https://fonts.googleapis.com/css?family=Lato:300,300i,400,700')
+$primaryColor: #005e1b
 $secondaryColor: #6b4b35
+$secondaryPanel: rgba(107,75,53,0.15)
 
 *
+  margin: 0px
+  padding: 0px
   box-sizing: border-box
 
 html,body 
-  font-family: 'Poppins', sans-serif
+  font-family: lato
   color: black
   overflow-x: hidden
   line-height: 1.6
+  font-family: 'Lato', sans-serif
+  letter-spacing: 1px
 
 a
   color: black
@@ -38,14 +43,12 @@ blockquote:before
 
 .showcase
   height: 100vh
-  background: url('../../resources/showcase.jpg')
-  // background-attachment: fixed
-  background-position: center
+  background: linear-gradient(to bottom, rgba(126, 213, 111, 0.3), rgba(107,75,53,0.3)), url('../../resources/showcase.jpg')
+  background-position: top
   background-repeat: no-repeat
   background-size: cover
-
-  &-title
-    color: white
+  color: white
+  font-family: 'Lato', sans-serif
 
 .primary
   color: $primaryColor
@@ -54,10 +57,15 @@ blockquote:before
   color: $secondaryColor
 
 .light
-  background-color: gainsboro
-
-.dark
-  background-color: dimgray
+  background-color: $secondaryPanel
+  color: $secondaryColor
 
 .main-body 
   min-height: 100vh
+
+.btn-brown
+  color: white
+  background-color: $secondaryColor
+  
+  &:hover
+    color: white
