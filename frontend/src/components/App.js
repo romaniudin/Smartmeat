@@ -25,6 +25,8 @@ const App = ({loggedIn, user, logout}) => {
     }
   },[])
   
+
+
     return (
 
       <div className='App'>

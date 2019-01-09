@@ -1,10 +1,8 @@
+/* canvas {
+    width: 100vw;
+    height: 100vh;
+  } */
 
- #loginRequest {
-   margin-top: 15rem;
- }
-
- #loginRequest, #alert {
-  text-align: center;
- }
-
-
+  /* .chartjs-render-monitor {
+    height: 100vh;
+  } */

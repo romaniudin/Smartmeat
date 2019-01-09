@@ -1,18 +1,14 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css?family=Lato:300,300i,400,700");
+@import url("https://fonts.googleapis.com/css?family=Poppins");
 * {
-  margin: 0px;
-  padding: 0px;
   box-sizing: border-box;
 }
 
 html, body {
-  font-family: lato;
+  font-family: "Poppins", sans-serif;
   color: black;
   overflow-x: hidden;
   line-height: 1.6;
-  font-family: "Lato", sans-serif;
-  letter-spacing: 1px;
 }
 
 a {
@@ -44,16 +40,17 @@ blockquote:before {
 
 .showcase {
   height: 100vh;
-  background: linear-gradient(to bottom, rgba(126, 213, 111, 0.3), rgba(107, 75, 53, 0.3)), url("../../resources/showcase.jpg");
-  background-position: top;
+  background: url("../../resources/showcase.jpg");
+  background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+.showcase-title {
   color: white;
-  font-family: "Lato", sans-serif;
 }
 
 .primary {
-  color: #005e1b;
+  color: #abd038;
 }
 
 .secondary {
@@ -61,20 +58,15 @@ blockquote:before {
 }
 
 .light {
-  background-color: rgba(107, 75, 53, 0.15);
-  color: #6b4b35;
+  background-color: gainsboro;
+}
+
+.dark {
+  background-color: dimgray;
 }
 
 .main-body {
   min-height: 100vh;
-}
-
-.btn-brown {
-  color: white;
-  background-color: #6b4b35;
-}
-.btn-brown:hover {
-  color: white;
 }
 
 /*# sourceMappingURL=app.css.map */

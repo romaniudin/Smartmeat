@@ -2,22 +2,19 @@ const express = require('express'),
 app = express(),
 bodyParser = require('body-parser'),
 cors = require('cors'),
-cookieParser = require('cookie-parser'),
-logger = require('morgan'),
-
-
-
-port = process.env.PORT || 3030
+port = process.env.PORT || 3030,
 dbConnection = require('./database') ,
 user = require('./routes/user'),
-report = require('./routes/report'),
-passport = require('./passport')
+session = require('express-session'),
+passport = require('./passport'),
+cookieParser = require('cookie-parser'),
+logger = require('morgan')
 
-
+// MongoStore = require('connect-mongo')(session)
 
 
 app.use(logger('dev'))
-app.use(cors())
+app.use(cors());
 app.use(cookieParser())
 
 app.use(bodyParser.urlencoded({extended: false}))
@@ -26,8 +23,6 @@ app.use(bodyParser.json())
 
 
 app.use('/user', user)
-
-app.use('/report', report)
 
 
 app.listen(port, ()=>{
